@@ -3,7 +3,7 @@
 # Date:         19-JUN-2024
 # Description:  This is my Mongoose Traveller 2nd Edition Life-Path 
 #               Character Generator
-# Revisions:    v0.01 - 
+# Revisions:    v0.01 - Just getting started
 #**********************************************************************
 import valid as v
 import modifier_calculator as modcalc
@@ -42,9 +42,11 @@ def main():
 
             characteristics = get_stats(char_name, characteristics)
 
-            nobility = calc_nobility(char_name, characteristics[5])
+            char_name = calc_nobility(char_name, characteristics[5])
 
-            get_background_skills(characteristics[4])
+            print_background_skills(char_name, characteristics[4])
+
+            get_background_skills(char_name, characteristics[4])
 
            # life_path(char_name)
         elif menu_choice == GEN_RANDOM:
@@ -55,18 +57,20 @@ def main():
 
         print_menu()
 
-        get_menu_choice(menu_choice)
+        get_menu_choice()
     
     print_goodbye()
 
 def print_welcome():
     # This is the welcome message
-    print('\nWelcome to the Mongoose Traveller 2nd Edition Life-Path Character Generator')
+    print('\nWelcome to the Mongoose Traveller 2nd Edition Life-Path'
+          +' Character Generator')
 
 def print_menu():
     # These are the menu options
     print('\nMENU')
-    print('\n1. Create New Character\n2. Generate Random Character\n3. View Saved Characters\n4. Quit')
+    print('\n1. Create New Character\n2. Generate Random Character\n'
+          +'3. View Saved Characters\n4. Quit')
 
 def get_menu_choice():
     # This is the user input for the menu opitions
@@ -91,7 +95,8 @@ def get_stats(char_name, characteristics):
                         'Education (EDU)', 'Social Standing (SOC)']
     
     while index < len(characteristics):
-        characteristics[index] = v.get_integer(f"Input {char_name}'s {characteristics[index]}: " )
+        characteristics[index] = v.get_integer(f"Input {char_name}'s"
+                                      +" {characteristics[index]}: " )
         index += 1
 
     print(f"\n{char_name}'s starting characteristics are:"
@@ -100,34 +105,50 @@ def get_stats(char_name, characteristics):
           +f"\nEndurance (END): {characteristics[2]} "
           +f"\nIntellect (INT): {characteristics[3]} "
           +f"\nEducation (EDU): {characteristics[4]} "
-          +f"\nSocial Standing (SOC): {characteristics[5]} ")
+          +f"\nSocial Standing (SOC): {characteristics[5]}")
     
     return characteristics
 
 def calc_nobility(char_name, SOC):
     nobility = ''
+    SOC = int(SOC)
 
-    if int(SOC) > 10:
-        if int(SOC) == 11:
+    if SOC > 10:
+        if SOC == 11:
             nobility = 'Knight'
-        elif int(SOC) == 12:
+        elif SOC == 12:
             nobility = 'Baron'
-        elif int(SOC) == 13:
+        elif SOC == 13:
             nobility = 'Marquis'
-        elif int(SOC) == 14:
+        elif SOC == 14:
             nobility = 'Count'
-        elif int(SOC) == 15:
+        elif SOC >= 15:
             nobility = 'Duke'
         char_name = nobility + ' ' + char_name
 
-        return char_name
-    
-    return nobility
+        print("\nDue to your Social Standing your character will be"
+              +f" known henseforth as {char_name}.")
 
-def get_background_skills(EDU):
+    return char_name
+
+def print_background_skills(char_name, EDU):
     # The player can choose EDU DM + 3 background skills
     edu_mod = modcalc.get_modifier(EDU)
-    print(f"Choose {edu_mod + 3} background skills from the following list:")
+    print(f"\n{char_name} is able to choose {edu_mod + 3} level 0 "
+          +"background skills from the following list:")
+    print("\n1. Admin\n2. Electronics\n3. Science\n4. Animals\n"
+          +"5. Flyer\n6. Seafarer\n7. Art\n8. Language\n9. Streetwise"
+          +"\n10. Athletics\n11. Mechanic\n12. Survival\n13. Carouse\n"
+          +"14. Medic\n15. Vacc Suit\n16. Drive\n17. Profession")
+
+def get_background_skills(char_name, EDU):
+    edu_mod = modcalc.get_modifier(EDU)
+    skill_count = edu_mod + 3
+    while skill_count > 0:
+        v.get_integer(f"\n{skill_count} skills remaining."
+              +"\nChoose a background skill: ")
+        skill_count -= 1
+    print(f"\nNow {char_name} is 18 years old and is ready to begin Term 1.")
     
 
 def print_goodbye():
