@@ -88,7 +88,7 @@ def get_char_name(char_name):
     return char_name
 
 def get_stats(char_name, characteristics):
-    # This is the user input for their characters initial characteristics
+    # This is the user input for their characters initial stats
     index = 0
     characteristics = ['Strength (STR)', 'Dexterity (DEX)', 
                         'Endurance (END)', 'Intellect (INT)',
@@ -96,7 +96,7 @@ def get_stats(char_name, characteristics):
     
     while index < len(characteristics):
         characteristics[index] = v.get_integer(f"Input {char_name}'s"
-                                      +" {characteristics[index]}: " )
+            +f" {characteristics[index]}: " )
         index += 1
 
     print(f"\n{char_name}'s starting characteristics are:"
@@ -126,7 +126,7 @@ def calc_nobility(char_name, SOC):
             nobility = 'Duke'
         char_name = nobility + ' ' + char_name
 
-        print("\nDue to your Social Standing your character will be"
+        print("\nDue to your Social Standing your character will now be"
               +f" known henseforth as {char_name}.")
 
     return char_name
