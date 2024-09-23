@@ -148,8 +148,37 @@ def get_background_skills(char_name, EDU):
         v.get_integer(f"\n{skill_count} skills remaining."
               +"\nChoose a background skill: ")
         skill_count -= 1
-    print(f"\nNow {char_name} is 18 years old and is ready to begin Term 1.")
+    print(f"\nNow {char_name} is 18 years old and is ready to"
+          +" begin Term 1.")
     
+#=============================Skills==================================#
+# Skills can be listed with or without an associated level. If no
+# specific level is listed, then you gain that skill at level 1 if you
+# do not have it already, or increase its level by +1 if you are
+# already trained in that field. If a level is listed, then you gain
+# the skill at that level so long as it is higher than your current
+# level in the skill.
+# 
+# For example, "Gambler 0" would mean you receive the Gambler skill
+# at level 0. This is of benefit to you only if you have no Gambler
+# skill.
+# 
+# "Vacc Suit" would mean you increase your Vacc Suit skill by +1 or
+# gain it at level 1 if you have no Vacc Suit skill to begin with. If
+# you have Vacc Suit 0, it increases to 1, if you have Vacc Suit 2 it
+# rises to 3 and so forth.
+# 
+# "Streetwise 1" would mean you get the Streetwise skill at level 1.
+# If your Streetwise skill is already 1 or more, then this is of no
+# benefit to you. If you have no Streetwise skill, or it is only at 0,
+# you jump straight to Streetwise 1. 
+# 
+# A skill may never be increased beyond level 4 during Traveller
+# creation. Once a skill has reached level 4, any additional
+# increases are lost. In addition, a Traveller may never have a
+# total number of skill levels higher than three times their
+# combined INT and EDU.
+#=====================================================================#
 
 def print_goodbye():
     print('\nThank you for using this program.\n')
