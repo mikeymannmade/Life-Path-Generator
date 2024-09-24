@@ -1,86 +1,29 @@
-#**********************************************************************
-# Author:       Mikey Mann
-# Date:         19-JUN-2024
-# Description:  This is my Mongoose Traveller 2nd Edition Life-Path 
-#               Character Generator
-# Revisions:    v0.01 - Just getting started
-#**********************************************************************
 import valid as v
 import modifier_calculator as modcalc
 import random
 
-# Menu Constants
-GEN_CHAR = 1
-GEN_RANDOM = 2
-VIEW_SAVED = 3
-QUIT = 4
-
-def main():
-    menu_choice = 0
-    char_name = ""
+def background(char_name):
     characteristics = ['Strength (STR)', 'Dexterity (DEX)', 
                         'Endurance (END)', 'Intellect (INT)',
                         'Education (EDU)', 'Social Standing (SOC)']
-    # (STR): characteristics[0]
-    # (DEX): characteristics[1]
-    # (END): characteristics[2]
-    # (INT): characteristics[3]
-    # (EDU): characteristics[4]
-    # (SOC): characteristics[5]
+                    # (STR): characteristics[0]
+                    # (DEX): characteristics[1]
+                    # (END): characteristics[2]
+                    # (INT): characteristics[3]
+                    # (EDU): characteristics[4]
+                    # (SOC): characteristics[5]
     nobility = ""
 
-    print_welcome()
+    char_name = get_char_name(char_name)
 
-    print_menu()
+    characteristics = get_stats(char_name, characteristics)
 
-    menu_choice = get_menu_choice()
+    char_name = calc_nobility(char_name, characteristics[5])
 
-    while menu_choice != QUIT:
+    print_background_skills(char_name, characteristics[4])
 
-        if menu_choice == GEN_CHAR:
-            char_name = get_char_name(char_name)
+    get_background_skills(char_name, characteristics[4])
 
-            characteristics = get_stats(char_name, characteristics)
-
-            char_name = calc_nobility(char_name, characteristics[5])
-
-            print_background_skills(char_name, characteristics[4])
-
-            get_background_skills(char_name, characteristics[4])
-
-           # life_path(char_name)
-        elif menu_choice == GEN_RANDOM:
-            print('\nMenu Option Not Yet Avaliable')
-
-        elif menu_choice == VIEW_SAVED:
-            print('\nMenu Option Not Yet Avaliable')
-
-        print_menu()
-
-        get_menu_choice()
-    
-    print_goodbye()
-
-def print_welcome():
-    # This is the welcome message
-    print('\nWelcome to the Mongoose Traveller 2nd Edition Life-Path'
-          +' Character Generator')
-
-def print_menu():
-    # These are the menu options
-    print('\nMENU')
-    print('\n1. Create New Character\n2. Generate Random Character\n'
-          +'3. View Saved Characters\n4. Quit')
-
-def get_menu_choice():
-    # This is the user input for the menu opitions
-    menu_choice = 0
-    menu_choice = v.get_integer('\nChoose Menu Option: ')
-    while menu_choice < 0 or menu_choice > 4:
-        print('Invalid input.')
-        print_menu()
-        menu_choice = int(input('\nChoose Menu Option: '))
-    return menu_choice
 
 def get_char_name(char_name):
     # This is the user input for thier character's name
@@ -126,8 +69,8 @@ def calc_nobility(char_name, SOC):
             nobility = 'Duke'
         char_name = nobility + ' ' + char_name
 
-        print("\nDue to your Social Standing your character will now be"
-              +f" known henseforth as {char_name}.")
+        print("\nDue to your Social Standing your character will now "
+              +f"be known henseforth as {char_name}.")
 
     return char_name
 
@@ -183,4 +126,3 @@ def get_background_skills(char_name, EDU):
 def print_goodbye():
     print('\nThank you for using this program.\n')
 
-main()
