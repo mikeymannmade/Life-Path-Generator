@@ -23,13 +23,13 @@
 # - - - EDU + 1
 # - - - Precareer Event
 # - - - Graduation Attempt
-# - - - - +Graduate 
+# - - - - +Graduate
 # - - - - -End Term
 # - - - Graduation Benefits
 # - - - End Term 
 # - - Military Academy
 # - - - Application to Navy, Marines, or Army
-# - - - - +Go to Bootcamp 
+# - - - - +Go to Bootcamp
 # - - - - -Apply to career
 # - - - Bootcamp
 # - - - Precareer Event
