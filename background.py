@@ -5,13 +5,15 @@ import random
 def background(char_name):
     characteristics = ['Strength (STR)', 'Dexterity (DEX)', 
                         'Endurance (END)', 'Intellect (INT)',
-                        'Education (EDU)', 'Social Standing (SOC)']
+                        'Education (EDU)', 'Social Standing (SOC)', 
+                        'Psionics (PSI)']
                     # (STR): characteristics[0]
                     # (DEX): characteristics[1]
                     # (END): characteristics[2]
                     # (INT): characteristics[3]
                     # (EDU): characteristics[4]
                     # (SOC): characteristics[5]
+                    # (PSI): characteristics[6] 
     nobility = ""
 
     char_name = get_char_name(char_name)
@@ -27,7 +29,7 @@ def background(char_name):
 
 def get_char_name(char_name):
     # This is the user input for thier character's name
-    char_name = input("What is your Character's name? ")
+    char_name = input("What Is Your Name? ")
     return char_name
 
 def get_stats(char_name, characteristics):
@@ -40,14 +42,20 @@ def get_stats(char_name, characteristics):
     while index < len(characteristics):
         characteristics[index] = v.get_integer(f"Input {char_name}'s"
             +f" {characteristics[index]}: " )
+        if characteristics[index] > 15:
+            print("\nERROR: Ability Score Over 15!\n")
+            print("\nAbility Scores Cannot Exceed 15 In Character"
+                    +" Creation Unless Otherwise Specified\n")
+            print(f"\nReenter Valid Score for {characteristics[index]}")
+            index -= 1
         index += 1
 
     print(f"\n{char_name}'s starting characteristics are:"
-          +f"\nStrength (STR): {characteristics[0]} "
-          +f"\nDexterity (DEX): {characteristics[1]} "
-          +f"\nEndurance (END): {characteristics[2]} "
-          +f"\nIntellect (INT): {characteristics[3]} "
-          +f"\nEducation (EDU): {characteristics[4]} "
+          +f"\nStrength (STR): {characteristics[0]}"
+          +f"\nDexterity (DEX): {characteristics[1]}"
+          +f"\nEndurance (END): {characteristics[2]}"
+          +f"\nIntellect (INT): {characteristics[3]}"
+          +f"\nEducation (EDU): {characteristics[4]}"
           +f"\nSocial Standing (SOC): {characteristics[5]}")
     
     return characteristics
