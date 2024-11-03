@@ -82,7 +82,7 @@ import valid as v
 import precareer as pce
 import modifier_calculator as modcalc
 
-def second_draft():
+def main():
 
     term = 0
     age = 0
@@ -199,7 +199,6 @@ def get_background_skills(name, EDU, background_skills):
     background_skills = []
     index = 0
 
-
     print(f"\nYou Are Able To Choose {edu_mod + 3} Level 0 "
           +"Background Skills From The Following List:")
     print("\n1. Admin\n2. Electronics\n3. Science\n4. Animals\n"
@@ -215,6 +214,8 @@ def get_background_skills(name, EDU, background_skills):
     print(background_skills)
     return background_skills
 
+#=============================Term 1-3================================#
+
 def get_precareer_choice(name, precareer_choice, term):
     precareer_choice = 0
     print(f"\nDid You Apply For Pre-Career Education In Term {term}?"
@@ -226,4 +227,4 @@ def get_precareer_choice(name, precareer_choice, term):
     precareer_choice = input(f"{name}: ")
     return precareer_choice
 
-second_draft() 
+main() 
