@@ -11,7 +11,7 @@
 # - Stats
 # - Nobility Title (SOC11+)
 # - Background Skills
-# - +18 years 
+# - +18 years
 
 # Term 1-3 - Early Years
 # - Pre-Career Education (optional)
@@ -78,22 +78,16 @@
 
 #====================Traveller Life Path Generator====================#
 
-
 import valid as v
 import precareer as pce
-import background as getback
-# Menu Constants
-GEN_CHAR = 1
-GEN_RANDOM = 2
-VIEW_SAVED = 3
-QUIT = 4
+import modifier_calculator as modcalc
 
-def main():
+def second_draft():
+
     term = 0
     age = 0
-    menu_choice = 0
-    char_name = ""
-    characters = []
+    name = ""
+    home_world = ""
     characteristics = []
     # (STR): characteristics[0]
     # (DEX): characteristics[1]
@@ -101,80 +95,135 @@ def main():
     # (INT): characteristics[3]
     # (EDU): characteristics[4]
     # (SOC): characteristics[5]
+    # (PSI): characteristics[6]
     nobility = ""
+    background_skills = []
+    skills_list = []
+    term_history = []
+    precareer_choice = 0
 
-    print_welcome()
-
-    print_menu(characters)
-
-    menu_choice = get_menu_choice(characters)
-
-    while menu_choice != QUIT:
-        if menu_choice == GEN_CHAR:
-            #getback.background(char_name)
-            menu_choice = 0
-            print("\n********************\n"
-                + " Option Unavaliable"
-                + "\n********************\n")
-            print_menu(characters)
-            get_menu_choice(characters)
-        
-        elif menu_choice == GEN_RANDOM:
-            menu_choice = 0
-            print("\n********************\n"
-                + " Option Unavaliable"
-                + "\n********************\n")
-            print_menu(characters)
-            get_menu_choice(characters)
-
-        elif menu_choice == VIEW_SAVED:
-            #print_saved_list(characters)
-            menu_choice = 0
-            print("\n********************\n"
-                + " Option Unavaliable"
-                + "\n********************\n")
-            print_menu(characters)
-            get_menu_choice(characters)
-        
-        else:
-            return menu_choice
-    print_goodbye()
-
-# This is the welcome message
-def print_welcome():
-    print('\nWelcome to the Mongoose Traveller 2nd Edition Life-Path'
-          +' Character Generator')
-
-# These are the menu options
-def print_menu(characters):
-    print('\nMENU')
-    print(f'\n1. Begin Character Creation'
-         +f'\n2. Generate Random Character'
-         +f'\n3. View Saved ({int(len(characters))}) Characters'
-         +f'\n4. Quit')
-
-# This is the user input for the menu opitions
-def get_menu_choice(characters):
-    menu_choice = 0
-    menu_choice = v.get_integer('\nChoose Menu Option: ')
-    while menu_choice < 1 or menu_choice > 4:
-        print('Invalid input.')
-        print_menu(characters)
-        menu_choice = v.get_integer('\nChoose Menu Option: ')
-    return menu_choice 
-
-'''def print_saved_list(characters):
-    index = 0
-    if len(characters) == 0:
-        print("\nYou havent made any characters yet...")
+    welcome_user()
+    name = get_name(name)
+    home_world = get_home_world(name, home_world)
+    characteristics = get_characteristics(name, characteristics)
+    nobility = calc_nobility(name, characteristics[5], home_world)
+    background_skills = get_background_skills(name, characteristics[4], background_skills)
     
-    else: 
-        print("poopie")'''
+    print("\nEnd Of Term 0")
+    age += 18
+    term += 1
 
-# This is the goodbye message
-def print_goodbye():
-    print("\nThank you for using the level one hp calculator!\n")
+    # TERM 1
+    print(f"\nTerm {term}\n")
+
+    if term < 4:
+        precareer_choice = get_precareer_choice(name, precareer_choice, term)
+
+def welcome_user():
+    print("\nWelcome Traveller\n")
+    print("New User Detected")
+    print("\nEnter Traveller Profile Data\n")
+
+def get_name(name):
+    # This is the user input for thier character's name
+    name = input("Enter Your Name: ")
+    return name
+
+def get_home_world(name, home_world):
+    print("Enter Your Home World Name ")
+    home_world = input(f"{name}: ")
+    return home_world
+
+def get_characteristics(name, characteristics):
+    # This is the user input for their characters initial stats
+    index = 0
+    score = 0
+    characteristics = ['Strength (STR)', 'Dexterity (DEX)', 
+                        'Endurance (END)', 'Intellect (INT)',
+                        'Education (EDU)', 'Social Standing (SOC)']
+    
+    while index < len(characteristics):
+        print(f"Input Your {characteristics[index]}" )
+        score = v.get_integer(f"{name}: ")
+        if score > 15:
+            print("\nERROR: Ability Score Over 15!")
+            print("\nAbility Scores Cannot Exceed 15 In Character"
+                    +" Creation Unless Later Specified\n")
+            print(f"Reenter a Valid Score\n")
+            index -= 1
+        else:
+            characteristics[index] = score
+        index += 1
+
+    print(f"\nYour starting characteristics are:"
+          +f"\nStrength (STR): {characteristics[0]}"
+          +f"\nDexterity (DEX): {characteristics[1]}"
+          +f"\nEndurance (END): {characteristics[2]}"
+          +f"\nIntellect (INT): {characteristics[3]}"
+          +f"\nEducation (EDU): {characteristics[4]}"
+          +f"\nSocial Standing (SOC): {characteristics[5]}")
+    
+    return characteristics
+
+def calc_nobility(name, SOC, home_world):
+    nobility = ''
+    SOC = int(SOC)
+
+    if SOC > 10:
+        if SOC == 11:
+            nobility = 'Knight'
+        elif SOC == 12:
+            nobility = 'Baron'
+        elif SOC == 13:
+            nobility = 'Marquis'
+        elif SOC == 14:
+            nobility = 'Count'
+        elif SOC >= 15:
+            nobility = 'Duke'
+
+        print(f"\nTAS Records Will Show You As {nobility} {name} Of {home_world}.")
+    return nobility
+
+def get_background_skills(name, EDU, background_skills):
+
+    # This is proving challenging... I think I may need to make a list
+    # of all the skills in a seperate modiual to reffer to... And a 
+    # second list with the players skill points and to modify that list
+    # only as far as skills are concerned.
+    # 
+    # Ive found out about dictionaries but Im still not sure how to
+    # impliment them... 
+
+    edu_mod = modcalc.get_modifier(EDU)
+    skill_count = edu_mod + 3
+    background_skills = []
+    index = 0
 
 
-main()
+    print(f"\nYou Are Able To Choose {edu_mod + 3} Level 0 "
+          +"Background Skills From The Following List:")
+    print("\n1. Admin\n2. Electronics\n3. Science\n4. Animals\n"
+          +"5. Flyer\n6. Seafarer\n7. Art\n8. Language\n9. Streetwise"
+          +"\n10. Athletics\n11. Mechanic\n12. Survival\n13. Carouse\n"
+          +"14. Medic\n15. Vacc Suit\n16. Drive\n17. Profession")
+    while skill_count > 0:
+        print(f"\n{skill_count} skills remaining."
+              +"\nChoose a background skill")
+        background_skills[index] = v.get_integer(f"{name}: ")
+        index += 1
+        skill_count -= 1
+    print(background_skills)
+    return background_skills
 
+def get_precareer_choice(name, precareer_choice, term):
+    precareer_choice = 0
+    print(f"\nDid You Apply For Pre-Career Education In Term {term}?"
+          +"\nOnly Avaliable In Terms 1-3.")
+    print("\nChoose From The Following:"
+        +"\n1. Apply To University"
+        +"\n2. Apply To Military Academy"
+        +"\n3. Skip Pre-Career Education")
+    precareer_choice = input(f"{name}: ")
+    return precareer_choice
+
+second_draft() 
